@@ -3,6 +3,7 @@
 docker build -t wifi-device-notification .
 
 docker run -d \
+--name wifi-device-notification \
 --restart unless-stopped \
 -v "./db.txt:/app/db.txt" \
 -e ROUTER_BASE_URL="http://192.168.1.1" \
