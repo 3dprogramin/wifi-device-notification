@@ -36,7 +36,7 @@ async function run() {
     }
 
     if (!newDeviceFound) {
-      logger.debug("No new devices found");
+      logger.debug(`No new devices found [${currentDevices.length} devices connected / ${storedDevices.length} stored in local DB]`);
     }
 
     // store all current devices
