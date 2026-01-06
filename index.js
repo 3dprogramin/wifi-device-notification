@@ -25,22 +25,26 @@ async function run() {
     // go through all devices and see if there are any new ones
     let newDeviceFound = false;
     for (const device of currentDevices) {
-      const isNewDevice = !storedDevices.some((d) => d.mac === device.mac);
+      const isNewDevice = !storedDevices.some((d) => d.mac.toLowerCase() === device.mac.toLowerCase());
       if (isNewDevice) {
         newDeviceFound = true;
         // send discord notification and log
         const message = `New device connected to WiFi: ${device.name} (${device.manufacturer}) - ${device.mac}`;
         await sendNotification(process.env.DISCORD_WEBHOOK_URL, message);
         logger.info(message);
+
+        // append device to storage and save
+        storedDevices.push(device);
+        await storage.writeDevices(storedDevices);
       }
     }
 
     if (!newDeviceFound) {
-      logger.debug(`No new devices found [${currentDevices.length} devices connected / ${storedDevices.length} stored in local DB]`);
+      logger.debug(
+        `No new devices found [${currentDevices.length} devices connected / ${storedDevices.length} stored in local DB]`
+      );
     }
 
-    // store all current devices
-    await storage.saveDevice(currentDevices);
     logger.debug("Check complete");
   } catch (err) {
     logger.error("Error occurred during check:", err);

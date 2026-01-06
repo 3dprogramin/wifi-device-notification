@@ -9,7 +9,7 @@ const fs = FS.promises;
 
 const storagePath = join(__dirname, "..", "db.txt");
 
-async function saveDevice(devices) {
+async function writeDevices(devices) {
   try {
     await fs.writeFile(storagePath, JSON.stringify(devices, null, 2), "utf-8");
   } catch (err) {
@@ -35,6 +35,6 @@ async function readDevices() {
 }
 
 export default {
-    saveDevice,
+    writeDevices: saveDevice,
     readDevices,
 }
