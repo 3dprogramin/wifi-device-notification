@@ -1,6 +1,7 @@
 import FS from "fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import logger from "./logger.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -20,11 +21,13 @@ async function readDevices() {
   try {
     const fileContent = await fs.readFile(storagePath, "utf-8");
     if (fileContent.trim() === "") {
+      logger.warn("Storage file is empty, returning empty device list");
       return [];
     }
     return JSON.parse(fileContent);
   } catch (err) {
     if (err.code === "ENOENT") {
+      logger.warn("Storage file does not exist, returning empty device list");
       return []; // File does not exist
     }
     throw new Error(`Failed to load devices from file: ${err.message}`);
