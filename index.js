@@ -29,7 +29,7 @@ async function run() {
       if (isNewDevice) {
         newDeviceFound = true;
         // send discord notification and log
-        const message = `New device connected to WiFi: ${device.name} (${device.manufacturer})`;
+        const message = `New device connected to WiFi: ${device.name} (${device.manufacturer}) - ${device.mac}`;
         await sendNotification(process.env.DISCORD_WEBHOOK_URL, message);
         logger.info(message);
       }
