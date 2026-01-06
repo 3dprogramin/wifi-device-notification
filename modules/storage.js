@@ -35,6 +35,6 @@ async function readDevices() {
 }
 
 export default {
-    writeDevices: saveDevice,
+    writeDevices,
     readDevices,
 }
